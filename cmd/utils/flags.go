@@ -1194,7 +1194,7 @@ func setEtherbase(ctx *cli.Context, ks *keystore.KeyStore, cfg *ethconfig.Config
 	}
 	// Convert the etherbase into an address and configure it
 	if etherbase != "" {
-		/*if ks != nil {
+		if ks != nil {
 			account, err := MakeAddress(ks, etherbase)
 			if err != nil {
 				Fatalf("Invalid miner etherbase: %v", err)
@@ -1202,10 +1202,7 @@ func setEtherbase(ctx *cli.Context, ks *keystore.KeyStore, cfg *ethconfig.Config
 			cfg.Miner.Etherbase = account.Address
 		} else {
 			Fatalf("No etherbase configured")
-		}*/
-
-		//------------修改-用于gas归集-------------------
-		cfg.Miner.Etherbase = common.HexToAddress(etherbase)
+		}
 	}
 
 }
