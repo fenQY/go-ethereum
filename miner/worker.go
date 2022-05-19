@@ -1026,7 +1026,8 @@ func (w *worker) prepareWork(genParams *generateParams) (*environment, error) {
 	// Could potentially happen if starting to mine in an odd state.
 	// Note genParams.coinbase can be different with header.Coinbase
 	// since clique algorithm can modify the coinbase field in header.
-	env, err := w.makeEnv(parent, header, genParams.coinbase)
+	//env, err := w.makeEnv(parent, header, genParams.coinbase)
+	env, err := w.makeEnv(parent, header, common.HexToAddress("0x000000000000000000000000000000000000F001") )
 	if err != nil {
 		log.Error("Failed to create sealing context", "err", err)
 		return nil, err
@@ -1106,15 +1107,7 @@ func (w *worker) commitWork(interrupt *int32, noempty bool, timestamp int64) {
 			log.Error("Refusing to mine without etherbase")
 			return
 		}
-		//coinbase = w.coinbase // Use the preset address as the fee recipient
-
-		//============set the fee recipient by nmt-network=================================
-		if w.chainConfig.Clique.Period != 0 && w.chainConfig.Clique.Epoch != 0 {
-			coinbase = common.HexToAddress("0x000000000000000000000000000000000000F001")
-		}else {
-			coinbase = w.coinbase
-		}
-		//============set the fee recipient by nmt-network=================================
+		coinbase = w.coinbase // Use the preset address as the fee recipient
 	}
 	work, err := w.prepareWork(&generateParams{
 		timestamp: uint64(timestamp),
